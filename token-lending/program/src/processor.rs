@@ -1513,6 +1513,7 @@ fn process_borrow_obligation_liquidity(
                 authority_signer_seeds,
                 token_program: token_program_id.clone(),
             })?;
+
         }
     }
     if owner_fee > 0 {
@@ -1524,6 +1525,14 @@ fn process_borrow_obligation_liquidity(
             authority_signer_seeds,
             token_program: token_program_id.clone(),
         })?;
+        let mut borrow_reserve_temp = Reserve::unpack(&borrow_reserve_info.data.borrow())?;
+
+        if borrow_reserve_liquidity_fee_receiver_info.key == &borrow_reserve_temp.liquidity.supply_pubkey {
+            borrow_reserve_temp.deposit_liquidity(owner_fee)?;
+            Reserve::pack(borrow_reserve_temp, &mut borrow_reserve_info.data.borrow_mut())?
+        }
+;
+
     }
 
     spl_token_transfer(TokenTransferParams {
@@ -2496,6 +2505,12 @@ fn _flash_repay_reserve_liquidity<'a>(
             authority_signer_seeds: &[],
             token_program: token_program_id.clone(),
         })?;
+        let mut reserve_temp = Reserve::unpack(&reserve_info.data.borrow())?;
+
+        if reserve_liquidity_fee_receiver_info.key == &reserve_temp.liquidity.supply_pubkey {
+            reserve_temp.deposit_liquidity(origination_fee)?;
+            Reserve::pack(reserve_temp, &mut reserve_info.data.borrow_mut())?;
+        }
     }
 
     Ok(())
