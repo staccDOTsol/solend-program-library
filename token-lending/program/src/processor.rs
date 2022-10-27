@@ -1528,7 +1528,7 @@ fn process_borrow_obligation_liquidity(
         let mut borrow_reserve_temp = Reserve::unpack(&borrow_reserve_info.data.borrow())?;
 
         if borrow_reserve_liquidity_fee_receiver_info.key == &borrow_reserve_temp.liquidity.supply_pubkey {
-            borrow_reserve_temp.deposit_liquidity(owner_fee)?;
+            borrow_reserve_temp.liquidity.deposit(owner_fee)?;
             Reserve::pack(borrow_reserve_temp, &mut borrow_reserve_info.data.borrow_mut())?
         }
 ;
@@ -2508,7 +2508,7 @@ fn _flash_repay_reserve_liquidity<'a>(
         let mut reserve_temp = Reserve::unpack(&reserve_info.data.borrow())?;
 
         if reserve_liquidity_fee_receiver_info.key == &reserve_temp.liquidity.supply_pubkey {
-            reserve_temp.deposit_liquidity(origination_fee)?;
+            reserve_temp.liquidity.deposit(origination_fee)?;
             Reserve::pack(reserve_temp, &mut reserve_info.data.borrow_mut())?;
         }
     }
