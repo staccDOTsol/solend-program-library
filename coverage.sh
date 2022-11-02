@@ -18,10 +18,7 @@ reportName="lcov-${CI_COMMIT:0:9}"
 
 if [[ -z $1 ]]; then
   programs=(
-    memo/program
-    token/program
     token-lending/program
-    token-swap/program
   )
 else
   programs=("$@")

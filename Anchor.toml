@@ -6,8 +6,8 @@ members = [
 ]
 
 [provider]
-cluster = "mainnet"
+cluster = "localnet"
 wallet = "~/.config/solana/id.json"
 
 [programs.mainnet]
-spl_token_lending = "So1endDq2YkqhipRh3WViPa8hdiSpxWy6z3Z6tMCpAo"
+spl_token_lending = "6wRfEcS6rcsLWVv4UDjq1bLDRepoAV6neiauzsUh8ufh"
